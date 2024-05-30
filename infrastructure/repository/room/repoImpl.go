@@ -31,21 +31,10 @@ func (r *roomRepoImpl) Create(room *model.RoomEntity) error {
 
 func (r *roomRepoImpl) GetByName(name string) (*model.RoomEntity, error) {
 	room := &model.RoomEntity{}
-	
 	query := "SELECT id, name, floor, type, price, status, description, created_at, updated_at FROM rooms WHERE name = ?"
-	res := r.db.QueryRow(query, name)
-
-	if err := res.Scan(
-		&room.ID,
-		&room.Name,
-		&room.Floor,
-		&room.Type,
-		&room.Price,
-		&room.Status,
-		&room.Description,
-		&room.CreatedAt,
-		&room.UpdatedAt,
-	); err != nil {
+	
+	err := r.db.Get(room, query, name)
+	if err != nil {
 		log.Println("errorRepository: ", err.Error())
 		return nil, err
 	}

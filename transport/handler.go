@@ -13,4 +13,7 @@ func Handler(application *application.Application, r *fiber.App) {
 	r.Get("/room", ctrl.RoomCtrl.GetByName)
 	r.Get("/rooms", ctrl.RoomCtrl.GetAll)
 	r.Put("/room/:name", ctrl.RoomCtrl.Update)
+
+	r.Post("/guest", ctrl.GuestCtrl.Create)
+	r.Get("/guest", ctrl.GuestCtrl.GetByID)
 }
