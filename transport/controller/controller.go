@@ -7,13 +7,13 @@ import (
 )
 
 type Controller struct {
-	RoomCtrl *room.RoomController
+	RoomCtrl  *room.RoomController
 	GuestCtrl *guest.GuestController
 }
 
 func NewController(application *application.Application) *Controller {
 	return &Controller{
-		RoomCtrl: room.NewRoomController(application.RoomSvc),
+		RoomCtrl:  room.NewRoomController(application.RoomSvc),
 		GuestCtrl: guest.NewGuestController(application.GuestSvc),
 	}
 }

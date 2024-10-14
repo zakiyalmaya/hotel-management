@@ -21,16 +21,16 @@ func NewGuestController(guestSvc guest.Service) *GuestController {
 func (c *GuestController) Create(ctx *fiber.Ctx) error {
 	guestReq := model.CreateGuestRequest{}
 	if err := ctx.BodyParser(&guestReq); err != nil {
-		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{"status": "fail", "message": err.Error()})
+		return ctx.Status(fiber.StatusBadRequest).JSON(model.NewHttpResponse(fiber.StatusBadRequest, err.Error(), nil))
 	}
 
 	if err := utils.Validator(guestReq); err != nil {
-		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{"status": "fail", "message": err.Error()})
+		return ctx.Status(fiber.StatusBadRequest).JSON(model.NewHttpResponse(fiber.StatusBadRequest, err.Error(), nil))
 	}
 
 	parsedDateOfBirth, err := time.Parse("02-01-2006", guestReq.DateOfBirth)
 	if err != nil {
-		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{"status": "fail", "message": err.Error()})
+		return ctx.Status(fiber.StatusBadRequest).JSON(model.NewHttpResponse(fiber.StatusBadRequest, err.Error(), nil))
 	}
 
 	if err := c.guestSvc.Create(&model.GuestEntity{
@@ -41,10 +41,10 @@ func (c *GuestController) Create(ctx *fiber.Ctx) error {
 		Email:       guestReq.Email,
 		PhoneNumber: guestReq.PhoneNumber,
 	}); err != nil {
-		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"status": "fail", "message": err.Error()})
+		return ctx.Status(fiber.StatusInternalServerError).JSON(model.NewHttpResponse(fiber.StatusInternalServerError, err.Error(), nil))
 	}
 
-	return ctx.Status(fiber.StatusCreated).JSON(fiber.Map{"status": "success"})
+	return ctx.Status(fiber.StatusCreated).JSON(model.NewHttpResponse(fiber.StatusCreated, "success", nil))
 }
 
 func (c *GuestController) GetByID(ctx *fiber.Ctx) error {
@@ -56,8 +56,8 @@ func (c *GuestController) GetByID(ctx *fiber.Ctx) error {
 
 	resp, err := c.guestSvc.GetByID(idInt)
 	if err != nil {
-		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"status": "fail", "message": err.Error()})
+		return ctx.Status(fiber.StatusInternalServerError).JSON(model.NewHttpResponse(fiber.StatusInternalServerError, err.Error(), nil))
 	}
 
-	return ctx.Status(fiber.StatusOK).JSON(fiber.Map{"status": "success", "data": resp})
+	return ctx.Status(fiber.StatusOK).JSON(model.NewHttpResponse(fiber.StatusOK, "success", resp))
 }
