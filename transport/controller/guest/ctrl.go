@@ -51,7 +51,7 @@ func (c *GuestController) GetByID(ctx *fiber.Ctx) error {
 	id := ctx.Query("id")
 	idInt, err := strconv.Atoi(id)
 	if err != nil {
-		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{"status": "fail", "message": err.Error()})
+		return ctx.Status(fiber.StatusBadRequest).JSON(model.NewHttpResponse(fiber.StatusBadRequest, err.Error(), nil))
 	}
 
 	resp, err := c.guestSvc.GetByID(idInt)
