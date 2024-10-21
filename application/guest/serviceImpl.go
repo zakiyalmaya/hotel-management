@@ -9,7 +9,7 @@ type guestSvcImpl struct {
 	repos *repository.Repositories
 }
 
-func NewGuestServiceImpl(repos *repository.Repositories) Service {
+func NewGuestServiceImpl(repos *repository.Repositories) GuestService {
 	return &guestSvcImpl{repos: repos}
 }
 

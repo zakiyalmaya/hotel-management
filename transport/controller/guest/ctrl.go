@@ -11,10 +11,10 @@ import (
 )
 
 type GuestController struct {
-	guestSvc guest.Service
+	guestSvc guest.GuestService
 }
 
-func NewGuestController(guestSvc guest.Service) *GuestController {
+func NewGuestController(guestSvc guest.GuestService) *GuestController {
 	return &GuestController{guestSvc: guestSvc}
 }
 

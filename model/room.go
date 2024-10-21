@@ -47,7 +47,7 @@ type GetAllRoomRequest struct {
 }
 
 type UpdateRoomRequest struct {
-	Name        string   `json:"name"`
+	Name        string   `json:"name" validate:"required"`
 	Floor       *int     `json:"floor,omitempty"`
 	Status      *int     `json:"status,omitempty"`
 	Price       *float64 `json:"price,omitempty"`

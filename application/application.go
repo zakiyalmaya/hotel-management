@@ -8,8 +8,8 @@ import (
 
 type Application struct {
 	Repos    *repository.Repositories
-	RoomSvc  room.Service
-	GuestSvc guest.Service
+	RoomSvc  room.RoomService
+	GuestSvc guest.GuestService
 }
 
 func NewApplication(repos *repository.Repositories) *Application {

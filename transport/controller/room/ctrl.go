@@ -9,10 +9,10 @@ import (
 )
 
 type RoomController struct {
-	roomSvc room.Service
+	roomSvc room.RoomService
 }
 
-func NewRoomController(roomSvc room.Service) *RoomController {
+func NewRoomController(roomSvc room.RoomService) *RoomController {
 	return &RoomController{roomSvc: roomSvc}
 }
 

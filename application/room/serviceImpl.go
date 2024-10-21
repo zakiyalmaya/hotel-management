@@ -10,7 +10,7 @@ type roomSvcImpl struct {
 	repos *repository.Repositories
 }
 
-func NewRoomServiceImpl(repos *repository.Repositories) Service {
+func NewRoomServiceImpl(repos *repository.Repositories) RoomService {
 	return &roomSvcImpl{repos: repos}
 }
 
