@@ -5,21 +5,24 @@ import (
 
 	"github.com/jmoiron/sqlx"
 	_ "github.com/mattn/go-sqlite3"
+	"github.com/zakiyalmaya/hotel-management/infrastructure/repository/booking"
 	"github.com/zakiyalmaya/hotel-management/infrastructure/repository/guest"
 	"github.com/zakiyalmaya/hotel-management/infrastructure/repository/room"
 )
 
 type Repositories struct {
-	db        *sqlx.DB
-	RoomRepo  room.RoomRepository
-	GuestRepo guest.GuestRepository
+	db          *sqlx.DB
+	RoomRepo    room.RoomRepository
+	GuestRepo   guest.GuestRepository
+	BookingRepo booking.BookingRepository
 }
 
 func NewRespository(db *sqlx.DB) *Repositories {
 	return &Repositories{
-		db:        db,
-		RoomRepo:  room.NewRoomRepository(db),
-		GuestRepo: guest.NewGuestRepository(db),
+		db:          db,
+		RoomRepo:    room.NewRoomRepository(db),
+		GuestRepo:   guest.NewGuestRepository(db),
+		BookingRepo: booking.NewBookingRepository(db),
 	}
 }
 

@@ -16,4 +16,9 @@ func Handler(application *application.Application, r *fiber.App) {
 
 	r.Post("/guest", ctrl.GuestCtrl.Create)
 	r.Get("/guest", ctrl.GuestCtrl.GetByID)
+
+	r.Post("/booking", ctrl.BookingCtrl.Books)
+	r.Get("/booking", ctrl.BookingCtrl.GetByRegisterNumber)
+	r.Put("/payment", ctrl.BookingCtrl.UpdatePayment)
+	r.Put("/reschedule", ctrl.BookingCtrl.Reschedule)
 }
