@@ -24,7 +24,7 @@ func (b *bookingSvcImpl) Books(booking *model.BookingEntity) error {
 	}
 
 	if room.Status != constant.RoomStatusAvailable {
-		return fmt.Errorf("room not avaliable")
+		return fmt.Errorf("room not available")
 	}
 
 	// Calculate total cost based on days

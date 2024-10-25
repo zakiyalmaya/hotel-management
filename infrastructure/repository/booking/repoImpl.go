@@ -28,7 +28,7 @@ func (b *bookingRepoImpl) Books(booking *model.BookingEntity) error {
 
 func (b *bookingRepoImpl) GetByRegisterNumber(registerNumber string) (*model.BookingDetail, error) {
 	booking := &model.BookingDetail{}
-	query := "SELECT b.register_number, b.guest_id, g.first_name, g.last_name, g.identity_number, b.room_name, r.floor, r.type, r.status, b.check_in, b.check_out, b.paid_amount, b.payment_method, b.payment_status, b.additional_request, b.created_at FROM bookings b JOIN guests g ON b.guest_id = g.id JOIN rooms r ON r.name = b.room_name WHERE register_number = ?"
+	query := "SELECT b.register_number, b.guest_id, g.first_name, g.last_name, g.identity_number, b.room_name, r.floor, r.type, r.status, b.check_in, b.check_out, b.paid_amount, b.payment_method, b.payment_status, b.additional_request, b.created_at FROM bookings b JOIN guests g ON b.guest_id = g.id JOIN rooms r ON r.name = b.room_name WHERE b.register_number = ?"
 
 	err := b.db.Get(booking, query, registerNumber)
 	if err != nil {

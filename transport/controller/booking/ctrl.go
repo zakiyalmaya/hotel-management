@@ -43,6 +43,10 @@ func (c *BookingController) Books(ctx *fiber.Ctx) error {
 		return ctx.Status(fiber.StatusBadRequest).JSON(model.NewHttpResponse(fiber.StatusBadRequest, err.Error(), nil))
 	}
 
+	if parseCheckIn.After(parseCheckOut) {
+		return ctx.Status(fiber.StatusBadRequest).JSON(model.NewHttpResponse(fiber.StatusBadRequest, "check out date must be greater than check in date", nil))
+	}
+
 	registerNumber := uuid.New().String()
 	if err := c.bookingSvc.Books(&model.BookingEntity{
 		RegisterNumber:    registerNumber,
