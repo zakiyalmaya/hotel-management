@@ -26,8 +26,8 @@ func NewRespository(db *sqlx.DB) *Repositories {
 	}
 }
 
-func DBConnection() *sqlx.DB {
-	db, err := sqlx.Open("sqlite3", "./hotel.db")
+func DBConnection(dbfile string) *sqlx.DB {
+	db, err := sqlx.Open("sqlite3", dbfile)
 	if err != nil {
 		log.Panicln("error connecting to database: ", err.Error())
 		return nil
