@@ -1,24 +1,32 @@
 package transport
 
 import (
+	"github.com/go-redis/redis/v8"
 	"github.com/gofiber/fiber/v2"
 	"github.com/zakiyalmaya/hotel-management/application"
+	"github.com/zakiyalmaya/hotel-management/middleware"
 	"github.com/zakiyalmaya/hotel-management/transport/controller"
 )
 
-func Handler(application *application.Application, r *fiber.App) {
+func Handler(application *application.Application, redcl *redis.Client, r *fiber.App) {
 	ctrl := controller.NewController(application)
 
-	r.Post("/api/room", ctrl.RoomCtrl.Create)
-	r.Get("/api/room", ctrl.RoomCtrl.GetByName)
-	r.Get("/api/rooms", ctrl.RoomCtrl.GetAll)
-	r.Put("/api/room/:name", ctrl.RoomCtrl.Update)
+	r.Post("/api/room", middleware.AuthMiddleware(redcl), ctrl.RoomCtrl.Create)
+	r.Get("/api/room", middleware.AuthMiddleware(redcl), ctrl.RoomCtrl.GetByName)
+	r.Get("/api/rooms", middleware.AuthMiddleware(redcl), ctrl.RoomCtrl.GetAll)
+	r.Put("/api/room/:name", middleware.AuthMiddleware(redcl), ctrl.RoomCtrl.Update)
 
-	r.Post("/api/guest", ctrl.GuestCtrl.Create)
-	r.Get("/api/guest", ctrl.GuestCtrl.GetByID)
+	r.Post("/api/guest", middleware.AuthMiddleware(redcl), ctrl.GuestCtrl.Create)
+	r.Get("/api/guest", middleware.AuthMiddleware(redcl), ctrl.GuestCtrl.GetByID)
 
-	r.Post("/api/booking", ctrl.BookingCtrl.Books)
-	r.Get("/api/booking", ctrl.BookingCtrl.GetByRegisterNumber)
-	r.Put("/api/payment", ctrl.BookingCtrl.UpdatePayment)
-	r.Put("/api/reschedule", ctrl.BookingCtrl.Reschedule)
+	r.Post("/api/booking", middleware.AuthMiddleware(redcl), ctrl.BookingCtrl.Books)
+	r.Get("/api/booking", middleware.AuthMiddleware(redcl), ctrl.BookingCtrl.GetByRegisterNumber)
+	r.Put("/api/payment", middleware.AuthMiddleware(redcl), ctrl.BookingCtrl.UpdatePayment)
+	r.Put("/api/reschedule", middleware.AuthMiddleware(redcl), ctrl.BookingCtrl.Reschedule)
+
+	r.Post("/api/register", ctrl.UserCtrl.Create)
+	r.Post("/api/login", ctrl.UserCtrl.Login)
+	r.Post("/api/logout", middleware.AuthMiddleware(redcl), ctrl.UserCtrl.Logout)
+	r.Post("/api/refresh", middleware.AuthMiddleware(redcl), ctrl.UserCtrl.Refresh)
+	r.Put("/api/password", middleware.AuthMiddleware(redcl), ctrl.UserCtrl.ChangePassword)
 }

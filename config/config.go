@@ -9,6 +9,10 @@ import (
 type Config struct {
 	Server   ServerConfig   `json:"server"`
 	Database DatabaseConfig `json:"database"`
+	Redis    struct {
+		Host string `json:"host"`
+		Port string `json:"port"`
+	} `json:"redis"`
 }
 
 type ServerConfig struct {
@@ -27,6 +31,13 @@ func Init() {
 		},
 		Database: DatabaseConfig{
 			File: "./hotel.db",
+		},
+		Redis: struct {
+			Host string `json:"host"`
+			Port string `json:"port"`
+		}{
+			Host: "localhost",
+			Port: "6379",
 		},
 	}
 
