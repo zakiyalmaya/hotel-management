@@ -2,6 +2,7 @@ package controller
 
 import (
 	"github.com/zakiyalmaya/hotel-management/application"
+	"github.com/zakiyalmaya/hotel-management/transport/controller/auth"
 	"github.com/zakiyalmaya/hotel-management/transport/controller/booking"
 	"github.com/zakiyalmaya/hotel-management/transport/controller/guest"
 	"github.com/zakiyalmaya/hotel-management/transport/controller/room"
@@ -13,6 +14,7 @@ type Controller struct {
 	GuestCtrl   *guest.GuestController
 	BookingCtrl *booking.BookingController
 	UserCtrl    *user.UserController
+	AuthCtrl    *auth.AuthController
 }
 
 func NewController(application *application.Application) *Controller {
@@ -21,5 +23,6 @@ func NewController(application *application.Application) *Controller {
 		GuestCtrl:   guest.NewGuestController(application.GuestSvc),
 		BookingCtrl: booking.NewBookingController(application.BookingSvc),
 		UserCtrl:    user.NewUserController(application.UserSvc),
+		AuthCtrl:    auth.NewAuthController(application.AuthSvc),
 	}
 }

@@ -33,44 +33,6 @@ func (c *UserController) Create(ctx *fiber.Ctx) error {
 	return ctx.Status(fiber.StatusCreated).JSON(model.NewHttpResponse(fiber.StatusCreated, "success", nil))
 }
 
-func (c *UserController) Login(ctx *fiber.Ctx) error {
-	authReq := model.AuthRequest{}
-
-	if err := ctx.BodyParser(&authReq); err != nil {
-		return ctx.Status(fiber.StatusBadRequest).JSON(model.NewHttpResponse(fiber.StatusBadRequest, err.Error(), nil))
-	}
-
-	if err := utils.Validator(authReq); err != nil {
-		return ctx.Status(fiber.StatusBadRequest).JSON(model.NewHttpResponse(fiber.StatusBadRequest, err.Error(), nil))
-	}
-
-	authRes, err := c.userSvc.Login(&authReq)
-	if err != nil {
-		return ctx.Status(fiber.StatusInternalServerError).JSON(model.NewHttpResponse(fiber.StatusInternalServerError, err.Error(), nil))
-	}
-
-	return ctx.Status(fiber.StatusOK).JSON(model.NewHttpResponse(fiber.StatusOK, "success", authRes))
-}
-
-func (c *UserController) Logout(ctx *fiber.Ctx) error {
-	username := ctx.Locals("username").(string)
-	if err := c.userSvc.Logout(username); err != nil {
-		return ctx.Status(fiber.StatusInternalServerError).JSON(model.NewHttpResponse(fiber.StatusInternalServerError, err.Error(), nil))
-	}
-
-	return ctx.Status(fiber.StatusOK).JSON(model.NewHttpResponse(fiber.StatusOK, "success", nil))
-}
-
-func (c *UserController) Refresh(ctx *fiber.Ctx) error {
-	username := ctx.Locals("username").(string)
-	refreshRes, err := c.userSvc.RefreshAuthToken(username)
-	if err != nil {
-		return ctx.Status(fiber.StatusInternalServerError).JSON(model.NewHttpResponse(fiber.StatusInternalServerError, err.Error(), nil))
-	}
-
-	return ctx.Status(fiber.StatusOK).JSON(model.NewHttpResponse(fiber.StatusOK, "success", refreshRes))
-}
-
 func (c *UserController) ChangePassword(ctx *fiber.Ctx) error {
 	changePasswordReq := model.ChangePasswordRequest{}
 	if err := ctx.BodyParser(&changePasswordReq); err != nil {

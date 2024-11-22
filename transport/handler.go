@@ -25,8 +25,9 @@ func Handler(application *application.Application, redcl *redis.Client, r *fiber
 	r.Put("/api/reschedule", middleware.AuthMiddleware(redcl), ctrl.BookingCtrl.Reschedule)
 
 	r.Post("/api/register", ctrl.UserCtrl.Create)
-	r.Post("/api/login", ctrl.UserCtrl.Login)
-	r.Post("/api/logout", middleware.AuthMiddleware(redcl), ctrl.UserCtrl.Logout)
-	r.Post("/api/refresh", middleware.AuthMiddleware(redcl), ctrl.UserCtrl.Refresh)
 	r.Put("/api/password", middleware.AuthMiddleware(redcl), ctrl.UserCtrl.ChangePassword)
+
+	r.Post("/auth/login", ctrl.AuthCtrl.Login)
+	r.Post("/auth/logout", middleware.AuthMiddleware(redcl), ctrl.AuthCtrl.Logout)
+	r.Post("/auth/refresh", middleware.AuthMiddleware(redcl), ctrl.AuthCtrl.Refresh)
 }

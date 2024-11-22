@@ -1,6 +1,7 @@
 package application
 
 import (
+	"github.com/zakiyalmaya/hotel-management/application/auth"
 	"github.com/zakiyalmaya/hotel-management/application/booking"
 	"github.com/zakiyalmaya/hotel-management/application/guest"
 	"github.com/zakiyalmaya/hotel-management/application/room"
@@ -14,6 +15,7 @@ type Application struct {
 	GuestSvc   guest.GuestService
 	BookingSvc booking.BookingService
 	UserSvc    user.UserService
+	AuthSvc    auth.AuthService
 }
 
 func NewApplication(repos *repository.Repositories) *Application {
@@ -23,5 +25,6 @@ func NewApplication(repos *repository.Repositories) *Application {
 		GuestSvc:   guest.NewGuestServiceImpl(repos),
 		BookingSvc: booking.NewBookingServiceImpl(repos),
 		UserSvc:    user.NewUserServiceImpl(repos),
+		AuthSvc:    auth.NewAuthServiceImpl(repos),
 	}
 }
