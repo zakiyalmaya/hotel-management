@@ -163,14 +163,18 @@ Example config.json:
         | message | string | Y | response message |
         | data | object | Y | response data |
 
-    - `PUT /api/payment`: Update payment status.
+2. **Guest Management**
+    - `POST /api/guest`: Register a new guest.
         ```sh
-        curl --location --request PUT 'http://localhost:3000/api/payment' \
+        curl --location 'http://localhost:3000/api/guest' \
         --header 'Content-Type: application/json' \
-        --header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6ImphbmVkb2UiLCJleHAiOjE3MzIxNTM4NzZ9.m1zLH1xfQtiGg53jhTbGcQveEolu5QCdrovhj5WtPzw' \
-        --data '{
-            "payment_status": 3,
-            "register_number": "5586a507-5e6b-4857-b9ea-914c754bc70f"
+        --data-raw '{
+            "first_name": "Zakiya",
+            "last_name": "Almaya",
+            "identity_number": "1234567890",
+            "date_of_birth": "23-10-1999",
+            "phone_number": "+628123456789",
+            "email": "zakiya@gmail.com"
         }'
         ```
 
@@ -178,8 +182,12 @@ Example config.json:
 
         | field |type | required? (Y/N) | description |
         | :---: | :---: | :---: | :---: |
-        | payment_status | string | Y | status of the payment |
-        | register_number | string | Y | unique identifier for the booking transaction |
+        | first_name | string | Y | first name of the guest |
+        | last_name | string | Y | last name of the guest |
+        | identity_number | string | Y | identification number of the guest (e.g., passport, national ID) |
+        | date_of_birth | string | Y | date of birth of the guest |
+        | phone_number | string | Y | phone number of the guest |
+        | email | string | Y | email of the guest |
 
         - Response Body
 
@@ -189,9 +197,32 @@ Example config.json:
         | message | string | Y | response message |
         | data | object | Y | response data |
 
-2. **Guest Management**
-    - `POST /api/guest`: Register a new guest.
     - `GET /api/guest`: Retrieve guest data using id.
+        ```sh
+        curl --location 'http://localhost:3000/api/guest?id=1' \
+        --header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6ImphbmVkb2UiLCJleHAiOjE3MzI4NTUzNjJ9.rEj2V-HGaFZcgTVABO0o1rZLZbOhyFC-ixl7bggCytI'
+        ```
+
+        - Request Query Param
+
+        | field |type | required? (Y/N) | description |
+        | :---: | :---: | :---: | :---: |
+        | id | integer | Y | id of the guest |
+
+        - Response Body
+
+        | field |type | required? (Y/N) | description |
+        | :---: | :---: | :---: | :---: |
+        | code | integer | Y | response http status |
+        | message | string | Y | response message |
+        | data | object | Y | response data |
+        | id | integer | N | id of the guest |
+        | name | string | N | name of the guest |
+        | identity_number | string | N | identification number of the guest (e.g., passport, national ID) |
+        | date_of_birth | string | N | date of birth of the guest |
+        | phone_number | string | N | phone number of the guest |
+        | email | string | N | email of the guest |
+
 3. **Room Management**
     - `GET /api/rooms`: Retrieve a list of rooms.
         ```sh
@@ -308,13 +339,146 @@ Example config.json:
 
 4. **Payment Processing**
     - `PUT /api/payment`: Update payment status for a booking
+        ```sh
+        curl --location --request PUT 'http://localhost:3000/api/payment' \
+        --header 'Content-Type: application/json' \
+        --header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6ImphbmVkb2UiLCJleHAiOjE3MzIxNTM4NzZ9.m1zLH1xfQtiGg53jhTbGcQveEolu5QCdrovhj5WtPzw' \
+        --data '{
+            "payment_status": 3,
+            "register_number": "5586a507-5e6b-4857-b9ea-914c754bc70f"
+        }'
+        ```
+
+        - Request Body
+
+        | field |type | required? (Y/N) | description |
+        | :---: | :---: | :---: | :---: |
+        | payment_status | string | Y | status of the payment |
+        | register_number | string | Y | unique identifier for the booking transaction |
+
+        - Response Body
+
+        | field |type | required? (Y/N) | description |
+        | :---: | :---: | :---: | :---: |
+        | code | integer | Y | response http status |
+        | message | string | Y | response message |
+        | data | object | Y | response data |
+
 5. **User Management**
-    - `POST /api/user`: Create a new hotelier profile.
+    - `POST /api/register`: Create a new hotelier profile.
+        ```sh
+        curl --location 'http://localhost:3000/api/register' \
+        --header 'Content-Type: application/json' \
+        --data-raw '{
+            "name": "Jane Doe",
+            "username": "janedoe",
+            "password": "JaneDoe-123",
+            "email": "jane.doe.123@gmail.com"
+        }'
+        ```
+
+        - Request Body
+
+        | field |type | required? (Y/N) | description |
+        | :---: | :---: | :---: | :---: |
+        | name | string | Y | full name of the hotelier |
+        | username | string | Y | unique name for identify the hotelier account |
+        | password | string | Y | password of the hotelier account |
+        | email | string | Y | email of the hotelier account |
+
+        - Response Body
+
+        | field |type | required? (Y/N) | description |
+        | :---: | :---: | :---: | :---: |
+        | code | integer | Y | response http status |
+        | message | string | Y | response message |
+        | data | object | Y | response data |
+
     - `PUT /api/password`: Change password for user account.
+        ```sh
+        curl --location --request PUT 'http://localhost:3000/api/password' \
+        --header 'Content-Type: application/json' \
+        --header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6ImphbmVkb2UiLCJleHAiOjE3MzIxNzM3MDl9.xnZhWVOmRfIXJg1BpKwTFGP8NuvtSh5RVIWhPcd5dXg' \
+        --data '{
+            "old_password": "JaneDoe-123",
+            "new_password": "123-JaneDoe"
+        }'
+        ```
+
+        - Request Body
+
+        | field |type | required? (Y/N) | description |
+        | :---: | :---: | :---: | :---: |
+        | old_password | string | Y | old password of the hotelier account |
+        | new_password | string | Y | new password of the hotelier account | 
+
+        - Response Body
+
+        | field |type | required? (Y/N) | description |
+        | :---: | :---: | :---: | :---: |
+        | code | integer | Y | response http status |
+        | message | string | Y | response message |
+        | data | object | Y | response data |
+
 6. **User Authentication**
     - `POST /auth/login`: Authenticates a user and generates an access and refresh token.
+        ```sh
+        curl --location 'http://localhost:3000/auth/login' \
+        --header 'Content-Type: application/json' \
+        --data '{
+            "username": "janedoe",
+            "password": "123-JaneDoe"
+        }'
+        ```
+
+        - Request Body
+
+        | field |type | required? (Y/N) | description |
+        | :---: | :---: | :---: | :---: |
+        | username | string | Y | username of the hotelier |
+        | password | string | Y | password account |
+
+        - Response Body
+
+        | field |type | required? (Y/N) | description |
+        | :---: | :---: | :---: | :---: |
+        | code | integer | Y | response http status |
+        | message | string | Y | response message |
+        | data | object | Y | response data |
+        | username | string | N | username of the hotelier |
+        | name | string | N | name of the hotelier |
+        | token | string | N | token authorization |
+
     - `POST /auth/logout`: Logs the user out by invalidating the access token.
+        ```sh
+        curl --location --request POST 'http://localhost:3000/api/logout' \
+        --header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6ImphbmVkb2UiLCJleHAiOjE3MzIxNzM4MTd9.-xpqF6z2piPikSpXAuS_rpv34GhfGue7oyyLYyQbz7g'
+        ```
+
+        - Response Body
+
+        | field |type | required? (Y/N) | description |
+        | :---: | :---: | :---: | :---: |
+        | code | integer | Y | response http status |
+        | message | string | Y | response message |
+        | data | object | Y | response data |
+
     - `POST /auth/refresh`: Issues a new access token when the refresh token is valid and unexpired.
+        ```sh
+        curl --location --request POST 'http://localhost:3000/api/refresh' \
+        --header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6ImphbmVkb2UiLCJleHAiOjE3MzIxNzM3MDl9.xnZhWVOmRfIXJg1BpKwTFGP8NuvtSh5RVIWhPcd5dXg'
+        ```
+
+        - Response Body
+
+        | field |type | required? (Y/N) | description |
+        | :---: | :---: | :---: | :---: |
+        | code | integer | Y | response http status |
+        | message | string | Y | response message |
+        | data | object | Y | response data |
+        | username | string | N | username of the hotelier |
+        | name | string | N | name of the hotelier |
+        | token | string | N | token authorization |
 
 ## Technologies
 1. **Golang** - Core language for building the application.
