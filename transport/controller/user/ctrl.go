@@ -39,7 +39,7 @@ func (c *UserController) ChangePassword(ctx *fiber.Ctx) error {
 		return ctx.Status(fiber.StatusBadRequest).JSON(model.NewHttpResponse(fiber.StatusBadRequest, err.Error(), nil))
 	}
 
-	changePasswordReq.Username= ctx.Locals("username").(string)
+	changePasswordReq.Username = ctx.Locals("username").(string)
 	if err := utils.Validator(changePasswordReq); err != nil {
 		return ctx.Status(fiber.StatusBadRequest).JSON(model.NewHttpResponse(fiber.StatusBadRequest, err.Error(), nil))
 	}
@@ -51,4 +51,3 @@ func (c *UserController) ChangePassword(ctx *fiber.Ctx) error {
 
 	return ctx.Status(fiber.StatusOK).JSON(model.NewHttpResponse(fiber.StatusOK, "success", nil))
 }
-	
